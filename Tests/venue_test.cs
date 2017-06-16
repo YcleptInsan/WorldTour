@@ -1,21 +1,59 @@
-// using Xunit;
-// using System.Collections.Generic;
-// using System;
-// using System.Data;
-// using System.Data.SqlClient;
-// using Venue.Objects;
-//
-//
-// namespace WorldTour
-// {
-//   [Collection("WorldTour")]
-//   public class VenueTest : IDisposable
-//   {
-//     public VenueTest()
-//     {
-//         DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=band_tracker_test;Integrated Security=SSPI;";
-//     }
-//     public void Dispose()
-//     {
-//       Venue.DeleteAll();
-//     }
+using Xunit;
+using System;
+using System.Collections.Generic;
+
+namespace WorldTour
+{
+  [Collection("WorldTour")]
+  public class VenueTests : IDisposable
+  {
+    public VenueTests()
+    {
+      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=band_tracker_tests;Integrated Security=SSPI;";
+    }
+
+    [Fact]
+    public void Venue_GetAll_DatabaseEmptyOnload()
+    {
+      List<Venue> testList = Venue.GetAll();
+      List<Venue> newList = new List<Venue>{};
+
+      Assert.Equal(newList, testList);
+    }
+
+    [Fact]
+    public void Venue_Save_SaveToDatabase()
+    {
+      Venue newVenue = new Venue("World Star Tour");
+      newVenue.Save();
+
+      Venue testVenue = Venue.GetAll()[0];
+      Assert.Equal(newVenue, testVenue);
+    }
+
+    [Fact]
+    public void Venue_Equals_VenueEqualsVenue()
+    {
+      Venue newVenue = new Venue("World Star Tour");
+      Venue testVenue = new Venue("World Star Tour");
+
+      Assert.Equal(newVenue, testVenue);
+    }
+
+    [Fact]
+    public void Venue_Find_FindsVenueInDB()
+    {
+      Venue newVenue = new Venue("World Star Tour");
+      newVenue.Save();
+
+      Venue testVenue = Venue.Find(newVenue.GetId());
+
+      Assert.Equal(newVenue, testVenue);
+    }
+		public void Dispose()
+    {
+      Band.DeleteAll();
+			Venue.DeleteAll();
+    }
+	}
+}

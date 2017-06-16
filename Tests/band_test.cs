@@ -13,7 +13,7 @@ namespace WorldTour
   {
     public BandTest()
     {
-        DBConfiguration.ConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=band_tracker;Integrated Security=SSPI;";
+        DBConfiguration.ConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=band_tracker_tests;Integrated Security=SSPI;";
     }
     [Fact]
     public void Band_Test_DataBase_Empty_Initially()
@@ -38,6 +38,16 @@ namespace WorldTour
       Band testBand = new Band("Jenny and the LowRiders");
 
       Assert.Equal(newBand.GetName(), testBand.GetName());
+    }
+    [Fact]
+    public void Band_Test_FindBandInDataBase_FindBYId()
+    {
+      Band newBand = new Band("Jenny and the LowRiders");
+      newBand.Save();
+
+      Band testBand = Band.Find(newBand.GetId());
+
+      Assert.Equal(newBand, testBand);
     }
     public void Dispose()
     {
