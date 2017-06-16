@@ -21,22 +21,22 @@ namespace WorldTour
         return View["venues.cshtml", AllVenues];
       };
       Get["/venues/new"] = _ => {
-        return View["venues_form.cshtml"];
+        return View["venue_form.cshtml"];
       };
       Get["/bands/new"] = _ => {
-        return View["bands_form.cshtml"];
+        return View["band_form.cshtml"];
       };
       Post["/bands/new"] = _ => {
-        Band newBand = new Band(Request.Form["band-name"], Request.Form["venues-id"]);
+        Band newBand = new Band(Request.Form["band-name"], Request.Form["venue-id"]);
         newBand.Save();
         List<Band> AllBands = Band.GetAll();
         return View["bands.cshtml", AllBands];
       };
       Get["/venues/new"] = _ => {
-        return View["venues_form.cshtml"];
+        return View["venue_form.cshtml"];
       };
       Post["/venues/new"] = _ => {
-        Venue newVenue = new Venue(Request.Form["venues-name"]);
+        Venue newVenue = new Venue(Request.Form["venue-name"]);
         newVenue.Save();
         List<Venue> AllVenues = Venue.GetAll();
         return View["venues.cshtml", AllVenues];

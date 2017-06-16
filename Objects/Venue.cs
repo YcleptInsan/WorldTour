@@ -52,14 +52,14 @@ namespace WorldTour
       SqlCommand cmd = new SqlCommand("SELECT * FROM venues", conn);
       SqlDataReader rdr = cmd.ExecuteReader();
 
-      List<Venue> venues = new List<Venue>{};
+      List<Venue> allVenues = new List<Venue>{};
       while(rdr.Read())
       {
         int id = rdr.GetInt32(0);
         string name = rdr.GetString(1);
 
         Venue newVenue = new Venue(name, id);
-        venues.Add(newVenue);
+        allVenues.Add(newVenue);
       }
 
       if(rdr != null)
@@ -78,9 +78,9 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO venues (name) OUTPUT INSERTED.id VALUES (@Name)", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO venues (name) OUTPUT INSERTED.id VALUES (@VenueName)", conn);
 
-      SqlParameter nameParameter = new SqlParameter("@Name", this.GetName());
+      SqlParameter nameParameter = new SqlParameter("@VenueName", this.GetName());
 
       cmd.Parameters.Add(nameParameter);
 
@@ -112,8 +112,8 @@ namespace WorldTour
 
       SqlDataReader rdr = cmd.ExecuteReader();
 
-      int id = 0;
-      string name = null;
+      int foundVenueId = 0;
+      string foundVenueName = null;
 
       while(rdr.Read())
       {
@@ -121,7 +121,7 @@ namespace WorldTour
         name = rdr.GetString(1);
       }
 
-      Venue foundVenue  = new Venue(name, id);
+      Venue foundVenue  = new Venue(foundVenueName, foundVenueId);
 
       if(rdr != null)
       {
@@ -158,6 +158,7 @@ namespace WorldTour
       SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (band_id, venues_id) VALUES (@BandId, @VenueId);", conn);
 
       SqlParameter bandParam = new SqlParameter("@BandId", this.GetId());
+
       SqlParameter venueParam = new SqlParameter("@VenueId", newBand.GetId());
 
       cmd.Parameters.Add(bandParam);
@@ -175,7 +176,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venues_id = bands_venues.venues_id) JOIN bands ON (band_id = bands_venues.band_id) WHERE venues_id = @VenueId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venues.id = bands_venues.venues_id) JOIN bands ON (bands.id = bands_venues.band_id) WHERE venues.id = @VenueId;", conn);
 
       SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
       cmd.Parameters.Add(venueParameter);

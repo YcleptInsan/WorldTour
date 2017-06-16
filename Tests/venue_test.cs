@@ -56,9 +56,9 @@ namespace WorldTour
       Venue newVenue = new Venue("World Star Tour");
       newVenue.Save();
 
-      Band newBand1 = new Band("Jenny and the LowRiders");
+      Band newBand1 = new Band("Jenny and the LowRiders",1);
       newBand1.Save();
-      Band newBand2 = new Band("Frankie and the LowRiders");
+      Band newBand2 = new Band("Frankie and the LowRiders", 2);
       newBand2.Save();
 
       newVenue.AddBand(newBand1);
@@ -72,6 +72,7 @@ namespace WorldTour
 
 		public void Dispose()
     {
+
       Band.DeleteAll();
 			Venue.DeleteAll();
     }
