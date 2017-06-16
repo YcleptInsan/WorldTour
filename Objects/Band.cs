@@ -83,6 +83,32 @@ namespace WorldTour
 
       return allBands;
 		}
+		public void Save()
+		{
+			SqlConnection conn = DB.Connection();
+			conn.Open();
+
+			SqlCommand cmd = new SqlCommand("INSERT INTO bands (name) OUTPUT INSERTED.id VALUES (@Bands);", conn);
+
+			SqlParameter bandNameParameter = new SqlParameter("@Bands", this.GetId());
+
+			cmd.Parameters.Add(bandNameParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if(conn != null)
+      {
+        conn.Close();
+      }
+    }
 		public static void DeleteAll()
 		{
 			SqlConnection conn = DB.Connection();
