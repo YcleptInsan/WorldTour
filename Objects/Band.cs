@@ -7,13 +7,11 @@ namespace WorldTour
   public class Band
   {
     private string _name;
-		private int _venueId;
 		private int _id;
 
-    public Band(string Name, int VenueId, int Id = 0)
+    public Band(string Name, int Id = 0)
     {
       _name = Name;
-      _venueId = VenueId;
       _id = Id;
     }
 		public override bool Equals(System.Object otherBand)
@@ -27,7 +25,6 @@ namespace WorldTour
 	      Band newBand = (Band) otherBand;
 	      bool idEquality = (this.GetId() == newBand.GetId());
 	      bool nameEquality = (this.GetName() == newBand.GetName());
-	      bool venueEquality = this.GetVenueId()== newBand.GetVenueId();
 	      return (idEquality && nameEquality);
     	}
   	}
@@ -44,18 +41,9 @@ namespace WorldTour
       _name = newName;
     }
 
-    public int GetVenueId()
-    {
-      return _venueId;
-    }
-    public void SetVenueId(int newVenueId)
-    {
-      _venueId = newVenueId;
-    }
+
 		public static List<Band> GetAll()
 		{
-			List<Band> allBands = new List<Band>{};
-
 			SqlConnection conn = DB.Connection();
       conn.Open();
 
@@ -63,12 +51,12 @@ namespace WorldTour
 
       SqlDataReader rdr = cmd.ExecuteReader();
 
+			List<Band> allBands = new List<Band>{};
 			while(rdr.Read())
       {
         int bandId = rdr.GetInt32(0);
         string bandName = rdr.GetString(1);
-        int bandVenueId = rdr. GetInt32(2);
-        Band newBand = new Band(bandName, bandVenueId, bandId);
+        Band newBand = new Band(bandName, bandId);
         allBands.Add(newBand);
       }
 
@@ -90,7 +78,7 @@ namespace WorldTour
 
 			SqlCommand cmd = new SqlCommand("INSERT INTO bands (name) OUTPUT INSERTED.id VALUES (@Bands);", conn);
 
-			SqlParameter bandNameParameter = new SqlParameter("@Bands", this.GetId());
+			SqlParameter bandNameParameter = new SqlParameter("@Bands", this.GetName());
 
 			cmd.Parameters.Add(bandNameParameter);
 
@@ -108,6 +96,40 @@ namespace WorldTour
       {
         conn.Close();
       }
+    }
+		public static Band Find(int IdToFind)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM bands WHERE id = @BandId", conn);
+      SqlParameter idParam = new SqlParameter("@BandId", IdToFind);
+      cmd.Parameters.Add(idParam);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int id = 0;
+      string name = null;
+
+      while(rdr.Read())
+      {
+        id = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+      }
+
+      Band newBand = new Band(name, id);
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if(conn != null)
+      {
+        conn.Close();
+      }
+
+      return newBand;
     }
 		public static void DeleteAll()
 		{

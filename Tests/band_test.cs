@@ -13,7 +13,7 @@ namespace WorldTour
   {
     public BandTest()
     {
-        DBConfiguration.ConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=band_tracker_test;Integrated Security=SSPI;";
+        DBConfiguration.ConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=band_tracker;Integrated Security=SSPI;";
     }
     [Fact]
     public void Band_Test_DataBase_Empty_Initially()
@@ -23,13 +23,21 @@ namespace WorldTour
       Assert.Equal(0, stage1BandsList);
     }
     [Fact]
-    public void Bands_Test_Save_SaveToDatabase()
+    public void Band_Test_Save_SaveToDatabase()
     {
-      Band newBand = new Band("Jenny and the LowRiders",1 ,1);
+      Band newBand = new Band("Jenny and the LowRiders");
       newBand.Save();
 
       Band testBand = Band.GetAll()[0];
       Assert.Equal(newBand, testBand);
+    }
+    [Fact]
+    public void Band_Test_CheckForDuplicate_True()
+    {
+      Band newBand= new Band("Jenny and the LowRiders");
+      Band testBand = new Band("Jenny and the LowRiders");
+
+      Assert.Equal(newBand.GetName(), testBand.GetName());
     }
     public void Dispose()
     {
