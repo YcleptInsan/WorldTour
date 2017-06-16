@@ -50,6 +50,26 @@ namespace WorldTour
 
       Assert.Equal(newVenue, testVenue);
     }
+		[Fact]
+    public void Venue_AddBand_AddsBandToVenue()
+    {
+      Venue newVenue = new Venue("World Star Tour");
+      newVenue.Save();
+
+      Band newBand1 = new Band("Jenny and the LowRiders");
+      newBand1.Save();
+      Band newBand2 = new Band("Jenny and the LowRiders");
+      newBand2.Save();
+
+      newVenue.AddBand(newBand1);
+
+
+      List<Band> testList = newBand1.GetBands();
+      List<Band> newList = new List<Band>{newBand1, newBand2};
+
+      Assert.Equal(newList, testList);
+    }
+
 		public void Dispose()
     {
       Band.DeleteAll();

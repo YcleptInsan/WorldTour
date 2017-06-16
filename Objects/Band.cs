@@ -131,6 +131,60 @@ namespace WorldTour
 
       return newBand;
     }
+		public void AddVenue(Venue newVenue)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (venue_id, band_id) VALUES (@BandId, @VenueId);", conn);
+
+      SqlParameter bandParam = new SqlParameter("@BandId", this.GetId());
+      SqlParameter venueParam = new SqlParameter("@VenueId", newVenue.GetId());
+
+      cmd.Parameters.Add(bandParam);
+      cmd.Parameters.Add(venueParam);
+      cmd.ExecuteNonQuery();
+
+      if(conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public List<Venue> GetVenues()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT venues.* FROM venues JOIN venues_venues ON (venue.id = venues_venues.venue_id) JOIN venues ON (venue.id = venues_venues.venue_id) WHERE venue.id = @VenueId;", conn);
+
+      SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
+      cmd.Parameters.Add(venueParameter);
+
+      List<Venue> venues = new List<Venue>{};
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+
+
+        Venue newVenue = new Venue(name,  id);
+        venues.Add(newVenue);
+      }
+
+      if(conn != null)
+      {
+        conn.Close();
+      }
+      if(rdr != null)
+      {
+         rdr.Close();
+      }
+
+      return venues;
+    }
 		public static void DeleteAll()
 		{
 			SqlConnection conn = DB.Connection();
