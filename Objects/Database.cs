@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 
 
-namespace Salon
+namespace WorldTour
 {
   public class DB
   {
