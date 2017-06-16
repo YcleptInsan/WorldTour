@@ -175,9 +175,9 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venue.id = bands_venues.venue_id) JOIN bands ON (band.id = bands_venues.band_id) WHERE venue.id = @VenueId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venue.id = bands_venues.venue_id) JOIN bands ON (band.id = bands_venues.band_id) WHERE band.id = @BandId;", conn);
 
-      SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
+      SqlParameter venueParameter = new SqlParameter("@BandId", this.GetId());
       cmd.Parameters.Add(venueParameter);
 
       List<Band> bands = new List<Band>{};
@@ -190,7 +190,7 @@ namespace WorldTour
 
 
         Band newBand = new Band(name,  id);
-        venues.Add(newBand);
+        bands.Add(newBand);
       }
 
       if(conn != null)
@@ -203,6 +203,39 @@ namespace WorldTour
       }
 
       return bands;
+    }
+    public void Update(string newName)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE venues SET name = @NewName OUTPUT INSERTED.name WHERE id = @VenueId;", conn);
+
+      SqlParameter newNameParameter = new SqlParameter();
+      newNameParameter.ParameterName = "@NewName";
+      newNameParameter.Value = newName;
+      cmd.Parameters.Add(newNameParameter);
+
+      SqlParameter venuesIdParameter = new SqlParameter();
+      venuesIdParameter.ParameterName = "@VenueId";
+      venuesIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(venuesIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
     }
     public static void DeleteAll()
     {

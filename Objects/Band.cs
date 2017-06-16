@@ -156,7 +156,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT venues.* FROM venues JOIN venues_venues ON (venue.id = venues_venues.venue_id) JOIN venues ON (venue.id = venues_venues.venue_id) WHERE venue.id = @VenueId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT venues.* FROM venues JOIN bands_venues ON (band.id = bands_venues.band_id) JOIN venues ON (venue.id = venues_venues.venue_id) WHERE venue.id = @VenueId;", conn);
 
       SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
       cmd.Parameters.Add(venueParameter);

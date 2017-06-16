@@ -64,7 +64,7 @@ namespace WorldTour
       newVenue.AddBand(newBand1);
 
 
-      List<Band> testList = newBand1.GetBands();
+      List<Band> testList = newBand1.GetVenues();
       List<Band> newList = new List<Band>{newBand1, newBand2};
 
       Assert.Equal(newList, testList);
