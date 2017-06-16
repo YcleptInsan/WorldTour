@@ -140,7 +140,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("DELETE FROM venues WHERE id = @VenueId; DELETE FROM band_venues WHERE venue_id = @VenueId;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM venues WHERE id = @VenueId; DELETE FROM band_venues WHERE venues_id = @VenueId;", conn);
       SqlParameter idParam = new SqlParameter("@VenueId", this.GetId());
       cmd.Parameters.Add(idParam);
       cmd.ExecuteNonQuery();
@@ -155,7 +155,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (band_id, venue_id) VALUES (@BandId, @VenueId);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (band_id, venues_id) VALUES (@BandId, @VenueId);", conn);
 
       SqlParameter bandParam = new SqlParameter("@BandId", this.GetId());
       SqlParameter venueParam = new SqlParameter("@VenueId", newBand.GetId());
@@ -175,9 +175,9 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venue.id = bands_venues.venue_id) JOIN bands ON (band.id = bands_venues.band_id) WHERE band.id = @BandId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venues_id = bands_venues.venues_id) JOIN bands ON (band_id = bands_venues.band_id) WHERE venues_id = @VenueId;", conn);
 
-      SqlParameter venueParameter = new SqlParameter("@BandId", this.GetId());
+      SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
       cmd.Parameters.Add(venueParameter);
 
       List<Band> bands = new List<Band>{};

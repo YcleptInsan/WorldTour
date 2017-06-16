@@ -58,13 +58,13 @@ namespace WorldTour
 
       Band newBand1 = new Band("Jenny and the LowRiders");
       newBand1.Save();
-      Band newBand2 = new Band("Jenny and the LowRiders");
+      Band newBand2 = new Band("Frankie and the LowRiders");
       newBand2.Save();
 
       newVenue.AddBand(newBand1);
 
 
-      List<Band> testList = newBand1.GetVenues();
+      List<Band> testList = newVenue.GetBands();
       List<Band> newList = new List<Band>{newBand1, newBand2};
 
       Assert.Equal(newList, testList);

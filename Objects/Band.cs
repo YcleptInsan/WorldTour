@@ -136,7 +136,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (venue_id, band_id) VALUES (@BandId, @VenueId);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (venues_id, band_id) VALUES (@BandId, @VenueId);", conn);
 
       SqlParameter bandParam = new SqlParameter("@BandId", this.GetId());
       SqlParameter venueParam = new SqlParameter("@VenueId", newVenue.GetId());
@@ -156,7 +156,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT venues.* FROM venues JOIN bands_venues ON (band.id = bands_venues.band_id) JOIN venues ON (venue.id = venues_venues.venue_id) WHERE venue.id = @VenueId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT venues.* FROM bands JOIN bands_venues ON (band.id = bands_venues.band_id) JOIN venues ON (venue.id = bands_venues.venues_id) WHERE band.id = @BandId;", conn);
 
       SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
       cmd.Parameters.Add(venueParameter);
