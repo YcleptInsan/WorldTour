@@ -71,7 +71,7 @@ namespace WorldTour
         conn.Close();
       }
 
-      return venues;
+      return allVenues;
     }
     public void Save()
     {
@@ -117,8 +117,8 @@ namespace WorldTour
 
       while(rdr.Read())
       {
-        id = rdr.GetInt32(0);
-        name = rdr.GetString(1);
+        foundVenueId = rdr.GetInt32(0);
+        foundVenueName = rdr.GetString(1);
       }
 
       Venue foundVenue  = new Venue(foundVenueName, foundVenueId);

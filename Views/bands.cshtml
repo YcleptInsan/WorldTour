@@ -9,11 +9,11 @@ else
     @foreach (var band in Model)
     {
 
-      <li>@band.GetName()</a></li>
+      <li><a href="/bands/@band.GetId()">@band.GetName()</a></li>
 
     }
   </ul>
-  <form action="/bands/delete" method="post">
+  <form action="/bands/delete/{id}" method="post">
     <button type="submit">Clear all bands</button>
   </form>
 }
