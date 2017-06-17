@@ -53,12 +53,12 @@ namespace WorldTour
 		[Fact]
     public void Venue_AddBand_AddsBandToVenue()
     {
-      Venue newVenue = new Venue("World Star Tour", 1);
+      Venue newVenue = new Venue("World Star Tour");
       newVenue.Save();
 
-      Band newBand1 = new Band("Jenny and the LowRiders",1);
+      Band newBand1 = new Band("Jenny and the LowRiders");
       newBand1.Save();
-      Band newBand2 = new Band("Frankie and the LowRiders",2);
+      Band newBand2 = new Band("Frankie and the LowRiders");
       newBand2.Save();
 
       newVenue.AddBand(newBand1);

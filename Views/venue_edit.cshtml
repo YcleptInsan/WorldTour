@@ -1,7 +1,7 @@
 <h1>World Tour</h1>
  <hr />
-<h2>Edit Venue: @Model["venue"].GetName()</h2>
-<form action='/venue/edit/@Model["venue"].GetId()' method="post">
+<h2>Edit Venue: @Model["venues"].GetName()</h2>
+<form action='/venues/edit/@Model["venue"].GetId()' method="post">
   <input type="hidden" name="_method" value="PATCH">
   <input name="venue-id" type="hidden" value='@Model["venue"].GetId()'>
   <label for="venue-name">Venue name</label>
