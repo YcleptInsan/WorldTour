@@ -140,7 +140,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("DELETE FROM venues WHERE id = @VenueId; DELETE FROM band_venues WHERE venues_id = @VenueId;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM venues WHERE id = @VenueId; DELETE FROM bands_venues WHERE venues_id = @VenueId;", conn);
       SqlParameter idParam = new SqlParameter("@VenueId", this.GetId());
       cmd.Parameters.Add(idParam);
       cmd.ExecuteNonQuery();
@@ -155,14 +155,17 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (band_id, venues_id) VALUES (@BandId, @VenueId);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (bands_id, venues_id) VALUES (@BandId, @VenueId);", conn);
 
-      SqlParameter bandParam = new SqlParameter("@BandId", this.GetId());
+      SqlParameter bandIdParameter= new SqlParameter();
+      bandIdParameter.ParameterName = "@BandId";
+      bandIdParameter.Value = newBand.GetId();
+      cmd.Parameters.Add(bandIdParameter);
 
-      SqlParameter venueParam = new SqlParameter("@VenueId", newBand.GetId());
-
-      cmd.Parameters.Add(bandParam);
-      cmd.Parameters.Add(venueParam);
+      SqlParameter venueIdParameter = new SqlParameter();
+      venueIdParameter.ParameterName = "@VenueId";
+      venueIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(venueIdParameter);
       cmd.ExecuteNonQuery();
 
       if(conn != null)
@@ -176,7 +179,7 @@ namespace WorldTour
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venues.id = bands_venues.venues_id) JOIN bands ON (bands.id = bands_venues.band_id) WHERE venues.id = @VenueId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venues.id = bands_venues.venues_id) JOIN bands ON (bands.id = bands_venues.bands_id) WHERE venues.id = @VenueId;", conn);
 
       SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
       cmd.Parameters.Add(venueParameter);

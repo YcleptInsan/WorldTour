@@ -9,7 +9,7 @@ namespace WorldTour
   {
     public VenueTests()
     {
-      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=band_tracker_tests;Integrated Security=SSPI;";
+      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=band_tracker_test;Integrated Security=SSPI;";
     }
 
     [Fact]
@@ -53,12 +53,12 @@ namespace WorldTour
 		[Fact]
     public void Venue_AddBand_AddsBandToVenue()
     {
-      Venue newVenue = new Venue("World Star Tour");
+      Venue newVenue = new Venue("World Star Tour", 1);
       newVenue.Save();
 
       Band newBand1 = new Band("Jenny and the LowRiders",1);
       newBand1.Save();
-      Band newBand2 = new Band("Frankie and the LowRiders", 2);
+      Band newBand2 = new Band("Frankie and the LowRiders",2);
       newBand2.Save();
 
       newVenue.AddBand(newBand1);
