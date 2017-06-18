@@ -1,17 +1,29 @@
-<h2>Here are all the Clients for the selected Stylist :</h2>
-
-@if (@Model["clients"].Count == 0)
+<h1>To Do List</h1>
+<h2>Venue: @Model["venue"].GetName()</h2>
+<hr />
+@if (@Model["venueBands"].Count == 0)
 {
-  <p>No clients have been added yet!</p>
+  <p>No bands have been added yet!</p>
 }
 else
 {
-  <ol>
-    @foreach (var client in @Model["clients"])
+  <h4>Here are all the bands in this venue:</h4>
+  <ul>
+    @foreach (var band in @Model["venueBands"])
     {
-        <li><a href="/client/@client.GetId()">@client.GetName()</a> | <a href="/client/edit/@client.GetId()">Edit</a>| <a href="/client/delete/@client.GetId()">Delete</a></li>
+      <li><a href="/bands/@band.GetId()">@band.GetDescription()</a></li>
     }
-  </ol>
+  </ul>
 }
-<p><a href="/clients/new">Add a new client</a></p>
-<p><a href="/">Return to Main Page</a></p>
+<h4>Add a band to this venue:</h4>
+<form action='/venue/@Model["venue"].GetId()/add_band' method="post">
+  <input id="venue-id" type="hidden" name="venue-id" value='@Model["venue"].GetId()'>
+  <label for="band-id">Select a Band</label>
+  <select id='band-id' name='band-id' type='text'>
+    @foreach (var band in @Model["allBands"])
+    {
+      <option value='@band.GetId()'>@band.GetDescription()</option>
+    }
+  </select>
+  <button type='submit'>Add</button>
+</form>

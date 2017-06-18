@@ -1,17 +1,19 @@
-<h1>World Tour </h1>
-<hr/>
-<h2>Venue Name:</h2>
-<ul>
-  @if (Model.Count != 0)
+<h1>World Tour</h1>
+<hr />
+<h2>Venues:</h2>
+
+@if (@Model.Count == 0)
+{
+  <p>No venues have been added yet!</p>
+}
+else
+{
+  <ul>
+  @foreach (var venue in Model)
   {
-    @foreach (var venue in Model)
-    {
-      <li><a href="/venues/@venue.GetId()">@venue.GetName()</a> | <a href="/venue/edit/@venue.GetId()">Edit</a>| <a href="/venue/delete/@venue.GetId()">Delete</a></li>
-    }
+    <li><a href="/venues/@venue.GetId()">@venue.GetName()</a> | <a href="/venue/edit/@venue.GetId()">Edit</a>| <a href="/venue/delete/@venue.GetId()">Delete</a></li>
   }
-</ul>
-<h4><a href="/venues/new">Add a new venue </a></h4>
+  </ul>
+}
+<h4><a href="/venues/new">Add a new venue</a></h4>
 <h4><a href="/">Return home</a></h4>
-<form action="/venues/clear" method="post">
-  <button type="submit">Clear all venues</button>
-</form>

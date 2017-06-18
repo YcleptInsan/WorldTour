@@ -62,6 +62,7 @@ namespace WorldTour
       newBand2.Save();
 
       newVenue.AddBand(newBand1);
+      newVenue.AddBand(newBand2);
 
 
       List<Band> testList = newVenue.GetBands();

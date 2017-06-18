@@ -41,7 +41,6 @@ namespace WorldTour
       _name = newName;
     }
 
-
 		public static List<Band> GetAll()
 		{
 			SqlConnection conn = DB.Connection();
@@ -78,9 +77,11 @@ namespace WorldTour
 
 			SqlCommand cmd = new SqlCommand("INSERT INTO bands (name) OUTPUT INSERTED.id VALUES (@BandName);", conn);
 
-			SqlParameter bandNameParameter = new SqlParameter("@Bandname", this.GetName());
+			SqlParameter bandNameParameter = new SqlParameter();
+      bandNameParameter.ParameterName = "@Bandname";
+      bandNameParameter.Value = this.GetName();
 
-			cmd.Parameters.Add(bandNameParameter);
+		  cmd.Parameters.Add(bandNameParameter);
 
       SqlDataReader rdr = cmd.ExecuteReader();
       while(rdr.Read())
