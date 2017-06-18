@@ -1,4 +1,4 @@
-h2>Category: @Model["band"].GetName()</h2>
+h2>Band: @Model["band"].GetName()</h2>
 <hr />
 @if (@Model["bandVenues"].Count != 0)
 {
@@ -6,7 +6,7 @@ h2>Category: @Model["band"].GetName()</h2>
   <ul>
     @foreach (var venue in @Model["bandVenues"])
     {
-      <li>@venue.GetName(), @venue.GetCity()</li>
+      <li>@venue.GetName()</li>
     }
   </ul>
 }
@@ -17,7 +17,7 @@ h2>Category: @Model["band"].GetName()</h2>
   <select id='venue-id' name='venue-id' type='text'>
     @foreach (var venue in @Model["allVenues"])
     {
-      <option value='@venue.GetId()'>@venue.GetName(), @venue.GetCity()</option>
+      <option value='@venue.GetId()'>@venue.GetName()</option>
     }
   </select>
   <button type='submit'>Add</button>

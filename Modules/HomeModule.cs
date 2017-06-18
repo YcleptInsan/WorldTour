@@ -31,14 +31,11 @@ namespace WorldTour
         newBand.Save();
         return View["success.cshtml"];
       };
-      Get["/venues/new"] = _ => {
-        return View["venues_form.cshtml"];
-      };
       Post["/venues/new"] = _ => {
         Venue newVenue = new Venue(Request.Form["venue-name"]);
         newVenue.Save();
         List<Venue> AllVenues = Venue.GetAll();
-        return View["venues.cshtml", AllVenues];
+        return View["success.cshtml", AllVenues];
       };
       Get["/bands/{id}"] = parameters => {
         Dictionary<string, object> model = new Dictionary<string, object>();
@@ -62,6 +59,7 @@ namespace WorldTour
       };
 
       Post["/band/{id}/add_venues"] = parameters => {
+        Band SelectedBand = Band.Find(parameters.id);
         Venue venues = Venue.Find(Request.Form["venue-id"]);
         Band band = Band.Find(Request.Form["band-id"]);
         band.AddVenue(venues);
